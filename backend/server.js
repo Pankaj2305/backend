@@ -13,7 +13,7 @@ app.use('/user', userRoutes);
 
 mongoose.connect("mongodb://localhost:27017/") 
   .then(() => {
-    console.log('Server is successfully connected to the database');
+    console.log('Server is successfully connected to the database');  
   })
   .catch((err) => {
     console.log('Database connection error:', err);
