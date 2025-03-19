@@ -143,7 +143,7 @@ const Signup = () => {
     }
    
     axios
-      .post("http://localhost:8585/user/signup", { username, email, password })
+      .post("http://localhost:3000/user/Signup", { username, email, password })
       .then((response) => {
         console.log(response.data);
         setSuccessMessage(response.data.message);

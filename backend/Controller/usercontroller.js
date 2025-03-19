@@ -1,5 +1,6 @@
 const UserModel = require('../model/user');
 const bcrypt = require('bcrypt');
+const { error } = require('console');
 const jwt = require('jsonwebtoken'); // For JWT token generation
 
 const Signup = (req, res) => {
@@ -69,6 +70,62 @@ const Login = (req, res) => {
       res.status(500).json({ message: "An error occurred during login", error: err });
     });
 };
+const Home= async(req,res)=>{
+  try{
+    const user=await UserModel.find();
+    res.status(200).json(user)
+  }
+  catch(err){
+    res.status(500).json(err)
+  }
+}
+//get id
+const getId=async(req,res)=>{
+  try{
+    const user=await UserModel.findById(req.params.id);
+    if(!user) return res.status(404).json({error:"User not found"})
+      res.json(user)
+  }
+  catch(err){
+    res.status(500).json({err:"failed to fetch user"})
+
+  }
+};
+
+//Update
+const updateUser=async(req,res)=>{
+  try{
+    const {id}=req.params
+    const {email}=req.body
+    const userUpdate=await UserModel.findByIdAndUpdate(id,{email});
+    if(!userUpdate){
+       return res.status(404).json({error:"User not found"})
+    }
+      res.status(200).json({message:"user updated successfully",user:userUpdate})
+  }
+  catch(err){
+    console.error("Error Updating user",err)
+    res.status(500).json({err:"failed to fetch user"})
+
+  }
+};
+
+// Delete
+const deleteUser=async (req ,res) => {
+  try{
+    const {id} = req.params
+    const userDelete =await UserModel.findByIdAndDelete(id);
+    if(!userDelete) {
+      return res.status(404).json({error:"User not found"})
+    }
+    res.status(200).json({message:"user  successfully"})
+  }
+  catch(err){
+    console.error("Error Deleting user",err)
+    res.status(500).json({err:"failed to fetch user"})
+
+  }
+}
 
 
-module.exports = { Signup, Login };
+module.exports = { Signup, Login,Home,getId,updateUser ,deleteUser};

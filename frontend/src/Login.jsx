@@ -13,10 +13,11 @@ const Login = () => {
     setIsSubmitting(true);
   
     axios
-      .post("http://localhost:8585/user/login", { email, password })
+      .post("http://localhost:3000/user/Login", { email, password })
       .then((result) => {
+        localStorage.setItem("token",result.data.token)
         if (result.data.message === "Login Successful") {
-          navigate("/home");
+          navigate("/Home");
         } else {
           alert(result.data.message || "Login failed. Please try again.");
         }
@@ -130,7 +131,7 @@ const Login = () => {
           <h6 style={{ textAlign: "center", marginTop: "20px" }}>or</h6>
           <h6 style={facebookTextStyle}>Log in with Facebook</h6>
 
-          <Link to="/signup" style={{ textDecoration: "none" }}>
+          <Link to="/Signup" style={{ textDecoration: "none" }}>
             <p style={textStyle}>Don't have an account? Sign up</p>
           </Link>
         </div>
